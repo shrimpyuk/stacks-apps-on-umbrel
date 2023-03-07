@@ -21,7 +21,7 @@ services:
       - stacks-blockchain-api
 
   stacks-blockchain:
-    image: ceramicwhite/stacks-blockchain:2.05.0.6.0
+    image: ceramicwhite/stacks-blockchain:latest
     init: true
     restart: on-failure
     stop_grace_period: 20m
@@ -48,7 +48,7 @@ services:
       - stacks-blockchain-api
 
   stacks-blockchain-api:
-    image: ceramicwhite/stacks-blockchain-api:v6.2.1
+    image: ceramicwhite/stacks-blockchain-api:latest
     init: true
     restart: on-failure
     stop_grace_period: 20m
