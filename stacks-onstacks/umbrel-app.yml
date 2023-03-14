@@ -3,7 +3,7 @@ id: stacks-onstacks
 category: Explorer
 name: OnStacks
 version: "0.1.0"
-icon : https://stxsats.mypinata.cloud/ipfs/QmR7bp65twj3LAR4jPKiAREAcb9xKj5oXU5rpN57nMvFdX/onstacks.svg
+icon : https://cloudflare-ipfs.com/ipfs/QmR7bp65twj3LAR4jPKiAREAcb9xKj5oXU5rpN57nMvFdX/onstacks.svg
 tagline: Understand Stacks Mining & A Stacks Explorer
 description: >-
   Onstacks is the leading analytics provider for miners on the Stacks network. 

@@ -3,7 +3,7 @@ id: stacks-multisafe
 category: Wallets
 name: Multisafe
 version: "0.0.1"
-icon : https://stxsats.mypinata.cloud/ipfs/QmdtuAZtwuzkqM8gs82xrtr7FjrDn5j44Er4PPUsKHgjy8/multisafe.svg
+icon : https://cloudflare-ipfs.com/ipfs/QmdtuAZtwuzkqM8gs82xrtr7FjrDn5j44Er4PPUsKHgjy8/multisafe.svg
 tagline: A shared crypto wallet for managing Stacks (STX) and Bitcoin (BTC).
 description: >-
   The MultiSafe UI app for a user-friendly experience
