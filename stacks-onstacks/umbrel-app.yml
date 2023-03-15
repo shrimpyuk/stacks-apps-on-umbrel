@@ -31,7 +31,7 @@ repo: https://github.com/Daemon-Technologies/Onstacks-client
 support: https://github.com/Daemon-Technologies/Onstacks-client/issues
 port: 6054
 gallery:
-  - https://stxsats.mypinata.cloud/ipfs/QmR7bp65twj3LAR4jPKiAREAcb9xKj5oXU5rpN57nMvFdX/onstacks.jpg
+  - https://cloudflare-ipfs.com/ipfs/QmR7bp65twj3LAR4jPKiAREAcb9xKj5oXU5rpN57nMvFdX/onstacks.jpg
 path: ""
 defaultUsername: ""
 defaultPassword: ""
