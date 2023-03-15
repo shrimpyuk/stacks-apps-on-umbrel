@@ -6,7 +6,7 @@ services:
       APP_PORT: 3000
       PROXY_AUTH_ADD: "false"
       #PROXY_AUTH_WHITELIST: "/stacks-blockchain-api/*"
-      
+
 
   stacks-status:
     image: ceramicwhite/stacks-status:latest@sha256:c32b2203269828e6ed06cbda5d190a4f2154d2923236cb02f3fcaeff2417cf32
@@ -26,7 +26,7 @@ services:
     image: ceramicwhite/stacks-blockchain:2.1.0.0.0@sha256:6d50d09495ee359e4e39f47a934c8f453bd83eb09f98ddc8e2b147c3f545309b
     init: true
     restart: on-failure
-    stop_grace_period: 20m
+    stop_grace_period: 15m
     #user: 1000:1000
     env_file:
       - ${APP_DATA_DIR}/data/config/setup.env
@@ -53,7 +53,7 @@ services:
     image: ceramicwhite/stacks-blockchain-api:v7.1.1
     init: true
     restart: on-failure
-    stop_grace_period: 20m
+    stop_grace_period: 15m
     user: 1000:1000
     env_file:
       - ${APP_DATA_DIR}/data/config/setup.env
@@ -74,7 +74,7 @@ services:
     image: postgres:14-alpine@sha256:f26094a884eb8861c0c9d23ad9699889a7d6e21af9de4c04c11645c4a1cdcac0
     init: true
     restart: on-failure
-    stop_grace_period: 20m
+    stop_grace_period: 15m
     volumes:
       - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
     environment:
