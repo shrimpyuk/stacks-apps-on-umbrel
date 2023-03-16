@@ -8,6 +8,11 @@ tagline: Rare and exotic sats
 description: >-
   Disclaimer: Seriously do not expose this to the internet
 
+  Use "ordinal" insted of "ord"
+  Example: ordinal wallet create
+
+  ordinal is an alias that includes all the rpc info so you don't need to type it
+
 developer: Casey Rodarmor 
 website: https://ordinals.com/
 submitter: Jasper
