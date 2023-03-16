@@ -1,0 +1,24 @@
+manifestVersion: 1
+id: stacks-ord
+category: Wallet
+name: Ord + Gotty
+version: "0.5.1"
+icon : https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/e33ee8d56097f0ffe74ce276d5f484b9ea2d9feb/ordinals/icon.svg
+tagline: Rare and exotic sats
+description: >-
+  Disclaimer: Seriously do not expose this to the internet
+
+developer: Casey Rodarmor 
+website: https://ordinals.com/
+submitter: Jasper
+dependencies:
+  - bitcoin
+repo: https://github.com/casey/ord
+support: https://docs.ordinals.com/
+port: 4200
+gallery:
+  - https://i.imgur.com/Wl7Y1db.png
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+torOnly: false

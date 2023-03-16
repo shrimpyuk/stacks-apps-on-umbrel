@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: stacks-ord_web_1
+      APP_PORT: 8080
+
+  web:
+    image: ceramicwhite/ord-gotty:0.5.1
+    restart: on-failure
+    user: 1000:1000
+    init: true
+    stop_grace_period: 1m
+    tty: true
+    environment:
+      BTC_RPC_USER: $APP_BITCOIN_RPC_USER
+      BTC_RPC_PASSWORD: $APP_BITCOIN_RPC_PASS
+      BTC_RPC_HOST: $APP_BITCOIN_NODE_IP
+      BTC_RPC_PORT: $APP_BITCOIN_RPC_PORT
+      BITCOIN_NETWORK: $APP_BITCOIN_NETWORK    
+    command: gotty --port 8080 --title-format 'Ord Web Terminal' --permit-write run
+    volumes:
+      - ${APP_DATA_DIR}/data/run:/bin/run
+      - ${APP_DATA_DIR}/data/ord
+      - ${APP_BITCOIN_DATA_DIR}:/var/lib/bitcoind:ro

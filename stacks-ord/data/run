@@ -1,0 +1,20 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+NC='\033[0m'
+YELLOW='\033[0;33m'
+
+printf "%s:%s" > /data/cookie ${BTC_RPC_USER} ${BTC_RPC_PASSWORD}
+
+printf "alias ordinal='ord --rpc-url %s:%s --cookie-file /data/cookie --data-dir /data/ord --bitcoin-data-dir /var/lib/bitcoind --chain %s'" > ~/.bashrc ${BTC_RPC_HOST} ${BTC_RPC_PORT} ${BITCOIN_NETWORK}
+
+exec
+
+ord
+
+printf "\n"
+printf "Use: ${RED} ordinal not ord ${NC} \n"
+printf "Example: ${YELLOW} ordinal wallet create ${NC}"
+printf "\n"
+printf "\n"
+bash
