@@ -23,7 +23,7 @@ services:
       - stacks-blockchain-api
 
   stacks-blockchain:
-    image: ceramicwhite/stacks-blockchain:2.1.0.0.0@sha256:6d50d09495ee359e4e39f47a934c8f453bd83eb09f98ddc8e2b147c3f545309b
+    image: ceramicwhite/stacks-blockchain:2.1.0.0.0-bullseye-slim
     init: true
     restart: on-failure
     stop_grace_period: 15m
