@@ -1,7 +1,7 @@
 manifestVersion: 1
 id: stacks-ord
 category: Ordinal(non-stacks)
-name: Ord + Gotty
+name: Ord Terminal
 version: "0.5.1"
 icon : https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/e33ee8d56097f0ffe74ce276d5f484b9ea2d9feb/ordinals/icon.svg
 tagline: Rare and exotic sats
