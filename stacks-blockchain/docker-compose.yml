@@ -54,10 +54,11 @@ services:
     init: true
     restart: on-failure
     stop_grace_period: 15m
-    user: 0:0
+    user: 1000:1000
     env_file:
       - ${APP_DATA_DIR}/data/config/setup.env
-    command: ["npm", "run", "start"]
+    #command: ["npm", "run", "start"]
+    command: ["/bin/sh", "-c", "/app/scripts/bns.sh && npm run start"]
     volumes:
       - ${APP_DATA_DIR}/data/bns-data:/app/bns-data
       - ${APP_DATA_DIR}/data/event-replay:/app/event-replay
