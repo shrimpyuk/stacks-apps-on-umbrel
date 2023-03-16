@@ -4,8 +4,8 @@ services:
     environment:
       APP_HOST: $APP_STACKS_STATUS_IP
       APP_PORT: 3000
-      PROXY_AUTH_ADD: "false"
-      #PROXY_AUTH_WHITELIST: "/stacks-blockchain-api/*"
+      #PROXY_AUTH_ADD: "false"
+      PROXY_AUTH_WHITELIST: "/stacks-blockchain-api/*"
 
 
   stacks-status:
