@@ -15,5 +15,5 @@ mode = "mainnet"
 peer_host = "APP_BITCOIN_NODE_IP"
 username = "APP_BITCOIN_RPC_USER"
 password = "APP_BITCOIN_RPC_PASS"
-rpc_port = "APP_BITCOIN_RPC_PORT"
-peer_port = "APP_BITCOIN_P2P_PORT"
+rpc_port = APP_BITCOIN_RPC_PORT
+peer_port = APP_BITCOIN_P2P_PORT
