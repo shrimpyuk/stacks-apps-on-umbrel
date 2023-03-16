@@ -1,6 +1,6 @@
 manifestVersion: 1
 id: stacks-ord
-category: Wallet
+category: Ordinal(non-stacks)
 name: Ord + Gotty
 version: "0.5.1"
 icon : https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/e33ee8d56097f0ffe74ce276d5f484b9ea2d9feb/ordinals/icon.svg
