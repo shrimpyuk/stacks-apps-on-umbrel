@@ -22,5 +22,5 @@ services:
     command: "/bin/bash -c 'chmod +x /bin/run && gotty --port 8080 --title-format \"Ord Web Terminal\" --permit-write run'"
     volumes:
       - ${APP_DATA_DIR}/data/run:/bin/run
-      - ${APP_DATA_DIR}/data/ord
+      - ${APP_DATA_DIR}/data/ord:/data/ord
       - ${APP_BITCOIN_DATA_DIR}:/var/lib/bitcoind:ro
