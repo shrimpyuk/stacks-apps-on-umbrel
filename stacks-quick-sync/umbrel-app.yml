@@ -1,5 +1,5 @@
 manifestVersion: 1
-id: stacks-blockchain
+id: stacks-quick-sync
 category: Stacks
 name: Stacks Node
 version: "2.1.0.0.0"
