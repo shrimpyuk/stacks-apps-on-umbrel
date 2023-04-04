@@ -16,6 +16,7 @@ services:
   stacks-blockchain-api:
     image: ceramicwhite/stacks-blockchain-api:v7.1.1
     init: true
+    user: 0:0
     restart: on-failure
     stop_grace_period: 15m
     env_file:
