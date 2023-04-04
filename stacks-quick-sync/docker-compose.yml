@@ -9,9 +9,9 @@ services:
     image: getumbrel/gotty:v1.0.1@sha256:100571d271cfbae25603acac216afce511eece9961218c6db427e0fa4a58716a
     restart: on-failure
     stop_grace_period: 1m
-    command: --port 6821 --index "/gotty/index.html" --title-format "Stacks Quick Sync" bash -c 'tail -n 10000 -f /gotty/output.lo | grep "Traffic Relayed"'
+    command: --port 6821 --index "/data/index.html" --title-format "Stacks Quick Sync" bash -c 'tail -n 10000 -f /data/output.log'
     volumes:
-      - ${APP_DATA_DIR}/data:/gotty
+      - ${APP_DATA_DIR}/data/gotty:/data
 
   stacks-blockchain-api:
     image: ceramicwhite/stacks-blockchain-api:v7.1.1
