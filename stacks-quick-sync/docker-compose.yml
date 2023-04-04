@@ -2,7 +2,7 @@ version: "3.7"
 services:
   app_proxy:
     environment:
-      APP_HOST: $APP_STACKS_STATUS_IP
+      APP_HOST: stacks-quick-sync_web_1
       APP_PORT: 6821
 
   web:
@@ -13,47 +13,31 @@ services:
     volumes:
       - ${APP_DATA_DIR}/data:/gotty
 
-  proxy:
-    image: bash
-    restart: on-failure
-    env_file:
-      - ${UMBREL_ROOT}/repos/https---github-com-ceramicwhite-stacks-apps-on-umbrel-git/stacks-blockchain/data/config/setup.env
-    stop_grace_period: 1m
-    command: sh -c  "/scripts/run.sh >> /gotty/output.log 2>&1"
-    volumes:
-      - ${APP_DATA_DIR}/data/scripts:/scripts
-      - ${APP_DATA_DIR}/data/gotty:/gotty
-      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/event-replay:/event-replay
-      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/postgres:/postgres
-      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/stacks-blockchain:/stacks-blockchain
-      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/bns-data:/bns-data
-
-
   stacks-blockchain-api:
     image: ceramicwhite/stacks-blockchain-api:v7.1.1
     init: true
-    restart: "no"
+    restart: on-failure
     stop_grace_period: 15m
     env_file:
       - ${UMBREL_ROOT}/repos/https---github-com-ceramicwhite-stacks-apps-on-umbrel-git/stacks-blockchain/data/config/setup.env
-    command: ["/bin/sh", "-c", "nc -lk $APP_STACKS_API_CMD_PORT | while read cmd; do eval \"$cmd\"; done"]
+    command: ["/bin/sh", "-c", "./scripts/run.sh > /app/gotty/output.log 2>&1" ]
     volumes:
       - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/bns-data:/app/bns-data
-      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/event-replay:/app/event-replay/stacks-node-events.tsv
+      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/event-replay:/app/event-replay
+      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/postgres:/app/postgres
+      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/stacks-blockchain:/app/stacks-blockchain
+      - ${APP_DATA_DIR}/data/scripts:/app/scripts
+      - ${APP_DATA_DIR}/data/gotty:/app/gotty
     ports:
       - $APP_STACKS_CORE_EVENT_PORT:$APP_STACKS_CORE_EVENT_PORT
       - $APP_STACKS_API_PORT:$APP_STACKS_API_PORT
-      - $APP_STACKS_API_CMD_PORT:$APP_STACKS_API_CMD_PORT
-    networks:
-      default:
-        ipv4_address: $APP_STACKS_API_IP
     depends_on:
       - postgres
 
   postgres:
     image: postgres:15-alpine@sha256:1f86ede0903f60ecd2eb630b15803567324da7aa0d1f7bbc3a8f1fe5247a4592
     init: true
-    restart: "no"
+    restart: on-failure
     stop_grace_period: 15m
     volumes:
       - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/postgres:/var/lib/postgresql/data
@@ -63,6 +47,6 @@ services:
       - ${UMBREL_ROOT}/repos/https---github-com-ceramicwhite-stacks-apps-on-umbrel-git/stacks-blockchain/data/config/setup.env
     ports:
       - $APP_STACKS_DB_PORT:$APP_STACKS_DB_PORT
-    networks:
-      default:
-        ipv4_address: $APP_STACKS_DB_IP
+    # networks:
+    #   default:
+    #     ipv4_address: $APP_STACKS_DB_IP

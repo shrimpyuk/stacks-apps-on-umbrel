@@ -10,6 +10,8 @@ RELEASE=${RELEASE:-latest}
 
 POSTGRES_VERSION=${POSTGRES_VERSION:-15}
 
+USER_ID=${USER_ID:-$(id -u):$(id -g)}
+
 if [ "$SERVICE" = "stacks-blockchain" ]; then
     DATA_FILE=${DATA_FILE:-${NETWORK}-${SERVICE}-${RELEASE}.tar.gz}
     FILE_URL=${FILE_URL:-${ARCHIVE}/${NETWORK}/${SERVICE}/${DATA_FILE}}
@@ -26,10 +28,6 @@ elif [ "$SERVICE" = "postgres" ]; then
     SHA_URL=${SHA_URL:-${ARCHIVE}/${NETWORK}/stacks-blockchain-api-pg/stacks-blockchain-api-pg-${POSTGRES_VERSION}-${RELEASE}.sha256}
     IMPORT_DIR=${IMPORT_DIR:-${PWD}/${SERVICE}}
 fi
-
-USER_ID=${USER_ID:-$(id -u):$(id -g)}
-
-ARCHIVE_CHECK="${IMPORT_DIR}/${SERVICE}_downloaded"
 
 TARFILE="${IMPORT_DIR}/${DATA_FILE}"
 
@@ -48,26 +46,21 @@ if [ ! -d "${IMPORT_DIR}" ]; then
     mkdir -p "${IMPORT_DIR}"
 fi
 
-if [ ! -f "${ARCHIVE_CHECK}" ]; then
-    if [ ! -f "${TARFILE}.sha256" ]; then
-        echo ""
-        echo "Retrieving ${SERVICE} data as ${TARFILE}"
-        echo "From ${FILE_URL}"
-        echo ""
-        wget "${SHA_URL}" -O "${TARFILE}.sha256" || {
-            echo "Failed to download ${TARFILE}.sha256"
-            exit 1
-        }
-    fi
-    if [ ! -f "${TARFILE}" ]; then
-        wget "${FILE_URL}" -O "${TARFILE}" || {
-            echo "Failed to download ${TARFILE}"
-            exit 1
-        }
-    fi
-else
-    echo "${SERVICE} data already downloaded:"
-    ls "${IMPORT_DIR}"/
+if [ ! -f "${TARFILE}.sha256" ]; then
+    echo ""
+    echo "Retrieving ${SERVICE} data as ${TARFILE}"
+    echo "From ${FILE_URL}"
+    echo ""
+    wget "${SHA_URL}" -O "${TARFILE}.sha256" || {
+        echo "Failed to download ${TARFILE}.sha256"
+        exit 1
+    }
+fi
+if [ ! -f "${TARFILE}" ]; then
+    wget "${FILE_URL}" -O "${TARFILE}" || {
+        echo "Failed to download ${TARFILE}"
+        exit 1
+    }
 fi
 
 check_sha256() {
@@ -102,10 +95,14 @@ for FILE in "$@"; do
 
     if ! check_sha256 "${FILE}"; then
         echo "[ Warning ] - sha256 mismatch"
-        echo "    - Removing ${FILE}.sha256, re-attempting sha256 verification"
-        rm -f "${IMPORT_DIR}/${FILE}.sha256"
+        echo "    - Removing ${FILE}, re-attempting sha256 verification"
+        rm -f "${IMPORT_DIR}/${FILE}" "${IMPORT_DIR}/${FILE}.sha256"
         wget "${SHA_URL}" -O "${TARFILE}.sha256" || {
             echo "Failed to re-download ${TARFILE}.sha256"
+            exit 1
+        }
+        wget "${FILE_URL}" -O "${TARFILE}" || {
+            echo "Failed to download ${TARFILE}"
             exit 1
         }
         if ! check_sha256 "${FILE}"; then
@@ -127,24 +124,19 @@ for FILE in "$@"; do
     echo ""
 done
 
-if [ ! -f "${ARCHIVE_CHECK}" ]; then
-    echo "Setting dir ownership"
-    echo "cmd: chown -R ${USER_ID} ${IMPORT_DIR}"
-    chown -R "${USER_ID}" "${IMPORT_DIR}"
-    echo ""
-    echo "Creating ${ARCHIVE_CHECK}"
-    touch "${ARCHIVE_CHECK}"
-    echo ""
-    if [ "${SERVICE}" = "stacks-blockchain" ] || [ "${SERVICE}" = "stacks-blockchain-api" ]; then
-        echo "Removing download archive: ${TARFILE} & ${TARFILE}.sha256"
-        rm -f "${TARFILE}"
-        rm -f "${TARFILE}.sha256"
-    else
-        rm -f "${TARFILE}.sha256"
-    fi
-    echo ""
-    echo "${SERVICE} data downloaded and verified"
+echo "Setting dir ownership"
+echo "cmd: chown -R ${USER_ID} ${IMPORT_DIR}"
+chown -R "${USER_ID}" "${IMPORT_DIR}"
+echo ""
+if [ "${SERVICE}" = "stacks-blockchain" ] || [ "${SERVICE}" = "stacks-blockchain-api" ]; then
+    echo "Removing download archive: ${TARFILE} & ${TARFILE}.sha256"
+    rm -f "${TARFILE}"
+    rm -f "${TARFILE}.sha256"
+else
+    rm -f "${TARFILE}.sha256"
 fi
+echo ""
+echo "${SERVICE} data downloaded and verified"
 echo
 echo "${SERVICE} data check complete"
 echo ""

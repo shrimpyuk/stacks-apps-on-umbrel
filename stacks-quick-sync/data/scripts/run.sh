@@ -1,16 +1,24 @@
 #!/usr/bin/env sh
 
+sleep=10
 
+chown -R "1000:1000" bns-data event-replay stacks-blockchain gotty
 
-./scripts/bns.sh
+cd /app || exit
 
-SERVICE=stacks-blockchain-api ./scripts/quick-sync
+BNS_IMPORT_DIR="/app/bns-data" USER_ID="1000:1000" ./scripts/bns.sh
+
+SERVICE=stacks-blockchain-api USER_ID="1000:1000" ./scripts/quick-sync.sh
 #Event import and playback successful.
 
-# The command to be executed inside the stacks-blockchain-api container
-CMD="node ./lib/index.js import-events --file /event-replay/stacks-node-events.tsv --wipe-db --force"
+SERVICE=stacks-blockchain USER_ID="1000:1000" ./scripts/quick-sync.sh
 
-# Send the command to the stacks-blockchain-api container via the network
-echo "$CMD" | nc "$APP_STACKS_API_IP" "$APP_STACKS_API_CMD_PORT"
+node ./lib/index.js import-events --file /app/event-replay/stacks-node-events.tsv --wipe-db --force
 
-SERVICE=stacks-blockchain ./scripts/quick-sync
+while true; do
+    echo ""
+    echo "Quick Sync Complete"
+    echo "Uninstall Quick Sync App and Install Stacks Blockchain App"
+    echo "sleep $sleep"
+    sleep $sleep
+done
