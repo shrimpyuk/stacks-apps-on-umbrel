@@ -21,7 +21,7 @@ services:
     stop_grace_period: 15m
     env_file:
       - ${UMBREL_ROOT}/repos/https---github-com-ceramicwhite-stacks-apps-on-umbrel-git/stacks-blockchain/data/config/setup.env
-    command: ["/bin/sh", "-c", "./scripts/run.sh > /app/gotty/output.log 2>&1" ]
+    command: ["/bin/sh", "-c", "chmod +x /app/scripts/run.sh && ./scripts/run.sh > /app/gotty/output.log 2>&1" ]
     volumes:
       - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/bns-data:/app/bns-data
       - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/event-replay:/app/event-replay

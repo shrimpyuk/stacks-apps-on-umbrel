@@ -2,9 +2,11 @@
 
 sleep=10
 
-chown -R "1000:1000" bns-data event-replay stacks-blockchain gotty
+chown -R "1000:1000" bns-data event-replay stacks-blockchain gotty scripts
 
 cd /app || exit
+
+chmod +x scripts/quick-sync.sh scripts/bns.sh
 
 BNS_IMPORT_DIR="/app/bns-data" USER_ID="1000:1000" ./scripts/bns.sh
 

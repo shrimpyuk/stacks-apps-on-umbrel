@@ -129,7 +129,7 @@ echo "cmd: chown -R ${USER_ID} ${IMPORT_DIR}"
 chown -R "${USER_ID}" "${IMPORT_DIR}"
 echo ""
 if [ "${SERVICE}" = "stacks-blockchain" ] || [ "${SERVICE}" = "stacks-blockchain-api" ]; then
-    echo "Removing download archive: ${TARFILE} & ${TARFILE}.sha256"
+    #echo "Removing download archive: ${TARFILE} & ${TARFILE}.sha256"
     rm -f "${TARFILE}"
     rm -f "${TARFILE}.sha256"
 else
