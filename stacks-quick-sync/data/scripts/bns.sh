@@ -12,7 +12,7 @@ set -- chainstate.txt name_zonefiles.txt subdomain_zonefiles.txt subdomains.csv
 
 echo ""
 echo "*********************************"
-echo "Setting up BNS Data"
+echo " Setting up Stacks 1.0 BNS Data"
 echo "*********************************"
 echo ""
 

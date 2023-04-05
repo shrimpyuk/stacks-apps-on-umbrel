@@ -32,6 +32,9 @@ services:
     ports:
       - $APP_STACKS_CORE_EVENT_PORT:$APP_STACKS_CORE_EVENT_PORT
       - $APP_STACKS_API_PORT:$APP_STACKS_API_PORT
+    networks:
+      default:
+        ipv4_address: $APP_STACKS_API_IP
     depends_on:
       - postgres
 
@@ -48,6 +51,6 @@ services:
       - ${UMBREL_ROOT}/repos/https---github-com-ceramicwhite-stacks-apps-on-umbrel-git/stacks-blockchain/data/config/setup.env
     ports:
       - $APP_STACKS_DB_PORT:$APP_STACKS_DB_PORT
-    # networks:
-    #   default:
-    #     ipv4_address: $APP_STACKS_DB_IP
+    networks:
+      default:
+        ipv4_address: $APP_STACKS_DB_IP

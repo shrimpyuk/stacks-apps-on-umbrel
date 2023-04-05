@@ -16,7 +16,7 @@ if [ "$SERVICE" = "stacks-blockchain" ]; then
     DATA_FILE=${DATA_FILE:-${NETWORK}-${SERVICE}-${RELEASE}.tar.gz}
     FILE_URL=${FILE_URL:-${ARCHIVE}/${NETWORK}/${SERVICE}/${DATA_FILE}}
     SHA_URL=${SHA_URL:-${ARCHIVE}/${NETWORK}/${SERVICE}/${NETWORK}-${SERVICE}-${RELEASE}.sha256}
-    IMPORT_DIR=${IMPORT_DIR:-${PWD}/${SERVICE}/${NETWORK}}
+    IMPORT_DIR=${IMPORT_DIR:-${PWD}/${SERVICE}/}
 elif [ "$SERVICE" = "stacks-blockchain-api" ]; then
     DATA_FILE=${DATA_FILE:-${NETWORK}-${SERVICE}-${RELEASE}.gz}
     FILE_URL=${FILE_URL:-${ARCHIVE}/${NETWORK}/${SERVICE}/${DATA_FILE}}
@@ -77,16 +77,16 @@ check_sha256() {
     [ "${sha256}" = "${sha256sum}" ] && [ "${filename}" = "${file}" ]
 }
 
-extract_files() {
-    file="${1}"
-    file_path="${IMPORT_DIR}/${file}"
+# extract_files() {
+#     file="${1}"
+#     file_path="${IMPORT_DIR}/${file}"
 
-    if [ "$SERVICE" = "stacks-blockchain" ]; then
-        tar -xzf "${TARFILE}" -C "${IMPORT_DIR}"/ "${file}"
-    elif [ "$SERVICE" = "stacks-blockchain-api" ]; then
-        gzip -dc "${TARFILE}" >"${IMPORT_DIR}/stacks-node-events.tsv"
-    fi
-}
+#     if [ "$SERVICE" = "stacks-blockchain" ]; then
+#         tar -xzf "${TARFILE}" -C "${IMPORT_DIR}"/"${file}"
+#     elif [ "$SERVICE" = "stacks-blockchain-api" ]; then
+#         gzip -dc "${TARFILE}" > "${IMPORT_DIR}/stacks-node-events.tsv"
+#     fi
+# }
 
 for FILE in "$@"; do
     echo ""
@@ -102,7 +102,7 @@ for FILE in "$@"; do
             exit 1
         }
         wget "${FILE_URL}" -O "${TARFILE}" || {
-            echo "Failed to download ${TARFILE}"
+            echo "Failed to re-download ${TARFILE}"
             exit 1
         }
         if ! check_sha256 "${FILE}"; then
@@ -113,10 +113,10 @@ for FILE in "$@"; do
         fi
     fi
 
-    if [ ! -f "${IMPORT_DIR}/${FILE}" ] || [ ! -f "${IMPORT_DIR}/${FILE}.sha256" ]; then
-        echo "Extracting ${SERVICE} files: ${FILE}"
-        extract_files "${FILE}"
-    fi
+    # if [ ! -f "${IMPORT_DIR}/${FILE}" ] || [ ! -f "${IMPORT_DIR}/${FILE}.sha256" ]; then
+    #     echo "Extracting ${SERVICE} files: ${FILE}"
+    #     extract_files "${FILE}"
+    # fi
 
     sha256sum=$(sha256sum "${IMPORT_DIR}/${FILE}" | awk {'print $1'})
     echo ""
@@ -128,13 +128,13 @@ echo "Setting dir ownership"
 echo "cmd: chown -R ${USER_ID} ${IMPORT_DIR}"
 chown -R "${USER_ID}" "${IMPORT_DIR}"
 echo ""
-if [ "${SERVICE}" = "stacks-blockchain" ] || [ "${SERVICE}" = "stacks-blockchain-api" ]; then
-    #echo "Removing download archive: ${TARFILE} & ${TARFILE}.sha256"
-    rm -f "${TARFILE}"
-    rm -f "${TARFILE}.sha256"
-else
-    rm -f "${TARFILE}.sha256"
-fi
+# if [ "${SERVICE}" = "stacks-blockchain" ] || [ "${SERVICE}" = "stacks-blockchain-api" ]; then
+#     echo "Removing download archive: ${TARFILE} & ${TARFILE}.sha256"
+#     rm -f "${TARFILE}"
+#     rm -f "${TARFILE}.sha256"
+# else
+#     rm -f "${TARFILE}.sha256"
+# fi
 echo ""
 echo "${SERVICE} data downloaded and verified"
 echo

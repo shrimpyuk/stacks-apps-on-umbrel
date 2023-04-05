@@ -3,31 +3,28 @@ id: stacks-quick-sync
 category: Stacks
 name: Stacks Quick Sync
 version: "0.1"
-icon: https://cloudflare-ipfs.com/ipfs/QmTqAuRGEBdF1wziHtDJZKYiq11Fg2NRh42SZGN6v4fGR2/stacks-stx-logo.svg
-tagline: Stacks 2.1 is a layer-1 blockchain that connects to Bitcoin for security and enables decentralized apps and predictable smart contracts. 
+icon: https://cloudflare-ipfs.com/ipfs/QmdJNE3mpwKPkzcEN2PD6WJys1BrWonTQYfGrMdF8bMtHi/launch-rocket.svg
+
+tagline: Quick Sync your 2.1 Stacks Node. 
 description: >-
-  - Stacks 2.1 is a layer-1 blockchain that connects to Bitcoin for security and enables decentralized apps and predictable smart contracts. 
-  - Stacks 2.1 implements Proof of Transfer (PoX) mining that anchors to Bitcoin security. Leader election happens at the Bitcoin blockchain and Stacks (STX) miners write new blocks on the separate Stacks blockchain. 
-  With PoX there is no need to modify Bitcoin to enable smart contracts and apps around it. See this page for more details and resources.
+  - Quick Sync will download archives from Hiro and run event-replay 
 
-  - Backed by your local bitcoin Node
+  - Will still take a couple days
 
+  - First Uninstall Stacks Blockchain App then Install this App
 
-  - Connect your Web and Desktop wallet to your local API (http://umbrel.local:3999)
-developer: Stacks Governance
+  - You can watch the logs from the App
+
+  - When it's done uninstall quick sync and install/reinstall Stacks Blockchain App
+
 website: https://stacks.co/
 submitter: Jasper
 repo: https://github.com/stacks-network/stacks-blockchain
 support: https://discord.gg/XyZBbYh3kT
 port: 6821
 gallery:
-  - https://i.imgur.com/ozTHpjG.jpg
-  - https://i.imgur.com/MoN2iX0.jpg
+  - https://i.imgur.com/TwSvQhO.png
 path: ""
 defaultUsername: ""
 defaultPassword: ""
-releaseNotes: >-
-  Update API to v7.1.1
-
-  Update Node to 2.1.0.0.0
 torOnly: false
