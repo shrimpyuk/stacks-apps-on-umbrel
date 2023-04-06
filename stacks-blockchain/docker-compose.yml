@@ -4,7 +4,6 @@ services:
     environment:
       APP_HOST: $APP_STACKS_STATUS_IP
       APP_PORT: 3000
-      #PROXY_AUTH_ADD: "false"
       PROXY_AUTH_WHITELIST: "/stacks-blockchain-api/*"
 
 
@@ -23,7 +22,7 @@ services:
       - stacks-blockchain-api
 
   stacks-blockchain:
-    image: ceramicwhite/stacks-blockchain:2.1.0.0.0-bullseye-slim
+    image: ceramicwhite/stacks-blockchain:2.1.0.0.2
     init: true
     restart: on-failure
     stop_grace_period: 15m
@@ -50,7 +49,7 @@ services:
       - stacks-blockchain-api
 
   stacks-blockchain-api:
-    image: ceramicwhite/stacks-blockchain-api:v7.1.1
+    image: ceramicwhite/stacks-blockchain-api:v7.1.2
     init: true
     restart: on-failure
     user: 0:0
