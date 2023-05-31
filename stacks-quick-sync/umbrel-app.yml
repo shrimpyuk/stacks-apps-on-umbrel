@@ -6,19 +6,19 @@ version: "0.0.1"
 icon: https://svgur.com/i/thi.svg
 tagline: Quick Sync your 2.4 Stacks Node.
 description: >-
-  - Quick Sync will download Block data and event-replay from Hiro archives and then import them.
+  - Quick Sync will download Block data and Postgres dump from Hiro archives and then import them.
 
 
-  - Takes a day or two.
+  - Takes atleast a day.
 
 
-  - First Uninstall Stacks Blockchain App then Install this App.
+  - First Uninstall Stacks Blockchain App if its aleady installed then Install this App.
 
 
-  - You can watch the logs from the App dashboard.
+  - You can watch the logs and progress from the App.
 
 
-  - When it's done uninstall quick sync and install/reinstall Stacks Blockchain App.
+  - When its done uninstall quick sync and install/reinstall Stacks Blockchain App.
 developer: Jasper
 website: https://github.com/ceramicwhite/stacks-apps-on-umbrel/
 submitter: Jasper
