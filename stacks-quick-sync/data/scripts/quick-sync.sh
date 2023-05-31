@@ -294,10 +294,10 @@ echo ""
 echo "Cleaning up downloaded files"
 if [ -f "${IMPORT_DIR}/${FILE}" ]; then
     echo "Removing download archive: ${TARFILE}"
-    rm -f "${TARFILE}"
+    rm -f "${IMPORT_DIR}/${FILE}"
 elif [ -f "${IMPORT_DIR}/${FILE}.sha256" ]; then
-    echo "Removing downloaded ${TARFILE}.sha256"
-    rm -f "${TARFILE}.sha256"
+    echo "Removing downloaded ${IMPORT_DIR}/${FILE}.sha256"
+    rm -f "${IMPORT_DIR}/${FILE}.sha256"
 fi
 
 # Script execution complete
