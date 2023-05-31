@@ -4,7 +4,7 @@ category: Stacks
 name: Stacks Quick Sync
 version: "0.0.1"
 icon: https://svgur.com/i/thi.svg
-tagline: Quick Sync your 2.1 Stacks Node.
+tagline: Quick Sync your 2.4 Stacks Node.
 description: >-
   - Quick Sync will download Block data and event-replay from Hiro archives and then import them.
 
