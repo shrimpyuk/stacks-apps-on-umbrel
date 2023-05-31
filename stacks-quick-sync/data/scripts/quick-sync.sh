@@ -45,19 +45,39 @@ set -- "${DATA_FILE}"
 
 # Function to check if necessary commands are available and install if they are not
 check_commands() {
-    # Iterating over each required command and checking if it is installed
+    # Determine whether to use apk (Alpine) or apt-get (Ubuntu/Debian)
+    if command -v apk > /dev/null 2>&1; then
+        INSTALL_CMD="apk add --upgrade"
+    elif command -v apt-get > /dev/null 2>&1; then
+        INSTALL_CMD="apt-get install -y"
+    else
+        echo "Neither apk nor apt-get are available on your system."
+        exit 1
+    fi
+
+    # Check and install required commands
     for cmd in wget tar gzip sha256sum pv; do
         if ! command -v "$cmd" > /dev/null 2>&1; then
             echo "${cmd} is not installed. Attempting to install..."
-            apk add --upgrade "$cmd"
+            $INSTALL_CMD "$cmd"
         fi
     done
-    # Check for pg_restore and nodejs based on the service being used
+
     if [ "$SERVICE" = "postgres" ] || [ "$SERVICE" = "token-metadata" ]; then
         if [ "$IMPORT" = "true" ]; then
             if ! command -v pg_restore > /dev/null 2>&1; then
                 echo "pg_restore is not installed. Attempting to install postgresql..."
-                apk add --upgrade postgresql"${POSTGRES_VERSION}"
+                if [ "$INSTALL_CMD" = "apk add --upgrade" ]; then
+                    $INSTALL_CMD postgresql"${POSTGRES_VERSION}"
+                else
+                    apt-get update
+                    apt-get install -y curl ca-certificates gnupg lsb-release
+                    curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/apt.postgresql.org.gpg >/dev/null
+                    release=$(lsb_release -cs)
+                    echo "deb http://apt.postgresql.org/pub/repos/apt ${release}-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+                    apt-get update
+                    apt-get install -y postgresql-"${POSTGRES_VERSION}"
+                fi
             fi
         fi
     fi
@@ -66,11 +86,26 @@ check_commands() {
         if [ "$IMPORT" = "true" ]; then
             if ! command -v node > /dev/null 2>&1; then
                 echo "nodejs is not installed. Attempting to install nodejs..."
-                apk add --upgrade nodejs-current
+                if [ "$INSTALL_CMD" = "apk add --upgrade" ]; then
+                    $INSTALL_CMD nodejs-current
+                else
+                    apt-get update
+                    apt-get install -y nodejs
+                fi
             fi
         fi
     fi
 }
+
+
+apt-get update
+apt-get install -y curl ca-certificates gnupg lsb-release
+curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/apt.postgresql.org.gpg >/dev/null
+release=$(lsb_release -cs)
+echo "deb http://apt.postgresql.org/pub/repos/apt ${release}-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+apt-get update
+apt-get install postgresql-"${POSTGRES_VERSION}"
+
 
 # Function to download files if they do not exist in the specified path
 download_file() {
