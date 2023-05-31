@@ -1,0 +1,58 @@
+version: "3.7"
+services:
+  app_proxy:
+    environment:
+      APP_HOST: stacks-quick-sync_web_1
+      APP_PORT: 6821
+
+  web:
+    image: getumbrel/gotty:v1.0.1@sha256:100571d271cfbae25603acac216afce511eece9961218c6db427e0fa4a58716a
+    restart: on-failure
+    stop_grace_period: 1m
+    command: --port 6821 --index "/data/index.html" --title-format "Stacks Quick Sync" bash -c 'tail -n 10000 -f /data/output.log'
+    volumes:
+      - ${APP_DATA_DIR}/data/gotty:/data
+
+  stacks-quick-sync:
+    image: alpine
+    init: true
+    user: 0:0
+    restart: on-failure
+    stop_grace_period: 5m
+    env_file:
+      - ${UMBREL_ROOT}/repos/https---github-com-ceramicwhite-stacks-apps-on-umbrel-git/stacks-blockchain/data/config/setup.env
+    command: ["/bin/sh", "-c", "chmod +x /app/scripts/run.sh && ./scripts/run.sh > /app/gotty/output.log 2>&1" ]
+    volumes:
+      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/bns-data:/app/bns-data
+      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/stacks-blockchain:/app/stacks-blockchain
+      - ${APP_DATA_DIR}/data/postgres:/app/postgres
+      - ${APP_DATA_DIR}/data/scripts:/app/scripts
+      - ${APP_DATA_DIR}/data/gotty:/app/gotty
+    ports:
+      - $APP_STACKS_CORE_EVENT_PORT:$APP_STACKS_CORE_EVENT_PORT
+      - $APP_STACKS_API_PORT:$APP_STACKS_API_PORT
+    networks:
+      default:
+        ipv4_address: $APP_STACKS_API_IP
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15-alpine@sha256:1f86ede0903f60ecd2eb630b15803567324da7aa0d1f7bbc3a8f1fe5247a4592
+    container_name: postgress
+    init: true
+    restart: on-failure
+    stop_grace_period: 15m
+    volumes:
+      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${PG_PASSWORD:-postgres}
+    env_file:
+      - ${UMBREL_ROOT}/repos/https---github-com-ceramicwhite-stacks-apps-on-umbrel-git/stacks-blockchain/data/config/setup.env
+    ports:
+      - $APP_STACKS_DB_PORT:$APP_STACKS_DB_PORT
+    networks:
+      default:
+        ipv4_address: $APP_STACKS_DB_IP
+
+

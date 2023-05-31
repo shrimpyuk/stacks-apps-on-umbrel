@@ -1,0 +1,34 @@
+manifestVersion: 1
+id: stacks-quick-sync
+category: Stacks
+name: Stacks Quick Sync
+version: "0.0.1"
+icon: https://cloudflare-ipfs.com/ipfs/QmdJNE3mpwKPkzcEN2PD6WJys1BrWonTQYfGrMdF8bMtHi/launch-rocket.svg
+tagline: Quick Sync your 2.1 Stacks Node.
+description: >-
+  - Quick Sync will download Block data and event-replay from Hiro archives and then import them.
+
+
+  - Takes a day or two.
+
+
+  - First Uninstall Stacks Blockchain App then Install this App.
+
+
+  - You can watch the logs from the App dashboard.
+
+
+  - When it's done uninstall quick sync and install/reinstall Stacks Blockchain App.
+developer: Jasper
+website: https://github.com/ceramicwhite/stacks-apps-on-umbrel/
+submitter: Jasper
+dependencies: []
+repo: https://github.com/ceramicwhite/stacks-apps-on-umbrel/
+support: https://github.com/ceramicwhite/stacks-apps-on-umbrel/
+port: 6821
+gallery:
+  - https://i.imgur.com/TwSvQhO.png
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+torOnly: false
