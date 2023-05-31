@@ -3,7 +3,7 @@ id: stacks-quick-sync
 category: Stacks
 name: Stacks Quick Sync
 version: "0.0.1"
-icon: https://cloudflare-ipfs.com/ipfs/QmdJNE3mpwKPkzcEN2PD6WJys1BrWonTQYfGrMdF8bMtHi/launch-rocket.svg
+icon: https://svgur.com/i/thi.svg
 tagline: Quick Sync your 2.1 Stacks Node.
 description: >-
   - Quick Sync will download Block data and event-replay from Hiro archives and then import them.
