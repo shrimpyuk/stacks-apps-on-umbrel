@@ -70,13 +70,13 @@ check_commands() {
                 if [ "$INSTALL_CMD" = "apk add --upgrade" ]; then
                     $INSTALL_CMD postgresql"${POSTGRES_VERSION}"
                 else
-                    apt-get update
-                    apt-get install -y curl ca-certificates gnupg lsb-release
+                    $INSTALL_CMD update
+                    $INSTALL_CMD install -y curl ca-certificates gnupg lsb-release
                     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/apt.postgresql.org.gpg >/dev/null
                     release=$(lsb_release -cs)
                     echo "deb http://apt.postgresql.org/pub/repos/apt ${release}-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
-                    apt-get update
-                    apt-get install -y postgresql-"${POSTGRES_VERSION}"
+                    $INSTALL_CMD update
+                    $INSTALL_CMD install -y postgresql-"${POSTGRES_VERSION}"
                 fi
             fi
         fi
@@ -89,8 +89,8 @@ check_commands() {
                 if [ "$INSTALL_CMD" = "apk add --upgrade" ]; then
                     $INSTALL_CMD nodejs-current
                 else
-                    apt-get update
-                    apt-get install -y nodejs
+                    $INSTALL_CMD update
+                    $INSTALL_CMD install -y nodejs
                 fi
             fi
         fi
