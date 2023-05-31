@@ -13,20 +13,19 @@ services:
     volumes:
       - ${APP_DATA_DIR}/data/gotty:/data
 
-  stacks-blockchain-api:
-    image: ceramicwhite/stacks-blockchain-api:v7.1.1
+  stacks-quick-sync:
+    image: alpine
     init: true
     user: 0:0
     restart: on-failure
-    stop_grace_period: 15m
+    stop_grace_period: 5m
     env_file:
       - ${UMBREL_ROOT}/repos/https---github-com-ceramicwhite-stacks-apps-on-umbrel-git/stacks-blockchain/data/config/setup.env
     command: ["/bin/sh", "-c", "chmod +x /app/scripts/run.sh && ./scripts/run.sh > /app/gotty/output.log 2>&1" ]
     volumes:
       - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/bns-data:/app/bns-data
-      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/event-replay:/app/event-replay
-      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/postgres:/app/postgres
       - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/stacks-blockchain:/app/stacks-blockchain
+      - ${APP_DATA_DIR}/data/postgres:/app/postgres
       - ${APP_DATA_DIR}/data/scripts:/app/scripts
       - ${APP_DATA_DIR}/data/gotty:/app/gotty
     ports:
@@ -40,6 +39,7 @@ services:
 
   postgres:
     image: postgres:15-alpine@sha256:1f86ede0903f60ecd2eb630b15803567324da7aa0d1f7bbc3a8f1fe5247a4592
+    container_name: postgress
     init: true
     restart: on-failure
     stop_grace_period: 15m
@@ -54,3 +54,5 @@ services:
     networks:
       default:
         ipv4_address: $APP_STACKS_DB_IP
+
+
