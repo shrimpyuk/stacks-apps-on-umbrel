@@ -25,6 +25,8 @@ SERVICE=postgres USER_ID="1000:1000" IMPORT=true ./scripts/quick-sync.sh
 # Download stacks blockchain data
 SERVICE=stacks-blockchain USER_ID="1000:1000" ./scripts/quick-sync.sh
 
+chown -R "1000:1000" /app/db
+
 while true; do
   echo ""
   echo "Quick Sync Complete"

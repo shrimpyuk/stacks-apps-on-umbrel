@@ -28,6 +28,7 @@ services:
       - ${APP_DATA_DIR}/data/postgres:/app/postgres
       - ${APP_DATA_DIR}/data/scripts:/app/scripts
       - ${APP_DATA_DIR}/data/gotty:/app/gotty
+      - ${UMBREL_ROOT}/app-data/stacks-blockchain/data/postgres:/app/db
     ports:
       - $APP_STACKS_CORE_EVENT_PORT:$APP_STACKS_CORE_EVENT_PORT
       - $APP_STACKS_API_PORT:$APP_STACKS_API_PORT

@@ -32,6 +32,11 @@ elif [ "$SERVICE" = "postgres" ]; then
     FILE_URL=${FILE_URL:-${ARCHIVE}/${NETWORK}/stacks-blockchain-api-pg/${DATA_FILE}}
     SHA_URL=${SHA_URL:-${ARCHIVE}/${NETWORK}/stacks-blockchain-api-pg/stacks-blockchain-api-pg-${POSTGRES_VERSION}-${RELEASE}.sha256}
     IMPORT_DIR=${IMPORT_DIR:-${PWD}/${SERVICE}}
+elif [ "$SERVICE" = "token-metadata" ]; then
+    DATA_FILE=${DATA_FILE:-${SERVICE}-api-pg-${POSTGRES_VERSION}-${RELEASE}.dump}
+    FILE_URL=${FILE_URL:-${ARCHIVE}/${NETWORK}/${SERVICE}-api-pg/${DATA_FILE}}
+    SHA_URL=${SHA_URL:-${ARCHIVE}/${NETWORK}/${SERVICE}-api-pg/${SERVICE}-api-pg-${POSTGRES_VERSION}-${RELEASE}.sha256}
+    IMPORT_DIR=${IMPORT_DIR:-${PWD}/${SERVICE}}
 fi
 
 TARFILE="${IMPORT_DIR}/${DATA_FILE}"
@@ -48,7 +53,7 @@ check_commands() {
         fi
     done
     # Check for pg_restore and nodejs based on the service being used
-    if [ "$SERVICE" = "postgres" ]; then
+    if [ "$SERVICE" = "postgres" ] || [ "$SERVICE" = "token-metadata" ]; then
         if [ "$IMPORT" = "true" ]; then
             if ! command -v pg_restore > /dev/null 2>&1; then
                 echo "pg_restore is not installed. Attempting to install postgresql..."
@@ -119,9 +124,10 @@ import_files() {
                 fi
             done
         else
+            echo "Can not find stacks blockchain api ./lib/index.js file. Please check if the file is in the correct directory."
             return 1
         fi
-    elif [ "$SERVICE" = "postgres" ]; then
+    elif [ "$SERVICE" = "postgres" ] || [ "$SERVICE" = "token-metadata" ]; then
         # For postgres, use pg_restore to import data
         PGPASSWORD=$POSTGRES_PASSWORD pg_restore -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -U "$POSTGRES_USER" -d "$POSTGRES_DB" -Fc -v "${TARFILE}"
     fi
@@ -153,7 +159,7 @@ extract_files() {
     echo "   Extracting ${SERVICE} Data. This will take awhile..."
     echo "**********************************************************"
     if [ "$SERVICE" = "stacks-blockchain" ]; then
-        # If service is stacks-blockchain, use tar to extract the file
+        # If service is stacks-blockchain, use tar to extract the filer 
         pv -p -t -e -w 80 "${TARFILE}" | tar -xzf - -C "${IMPORT_DIR}" >/dev/null
     elif [ "$SERVICE" = "stacks-blockchain-api" ]; then
         # If service is stacks-blockchain-api, use gzip to decompress the file
@@ -233,7 +239,7 @@ for FILE in "$@"; do
                         fi
                     fi
                 fi
-            else #postgres
+            else #postgres or token-metadata
                 if [ "$IMPORT" = "true" ]; then
                     echo "Importing ${SERVICE} files: ${FILE}"
                     import_files "${FILE}"
