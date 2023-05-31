@@ -154,7 +154,7 @@ extract_files() {
     echo "**********************************************************"
     if [ "$SERVICE" = "stacks-blockchain" ]; then
         # If service is stacks-blockchain, use tar to extract the file
-        pv -ptebar "${TARFILE}" | tar -xzf - -C "${IMPORT_DIR}" >/dev/null
+        pv -p -t -e -w 80 "${TARFILE}" | tar -xzf - -C "${IMPORT_DIR}" >/dev/null
     elif [ "$SERVICE" = "stacks-blockchain-api" ]; then
         # If service is stacks-blockchain-api, use gzip to decompress the file
         gzip -dc "${TARFILE}" > "${IMPORT_DIR}/stacks-node-events.tsv"
