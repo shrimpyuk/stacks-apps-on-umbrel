@@ -116,13 +116,13 @@ download_file() {
     if [ ! -f "${output_file}" ]; then
         if [ "${dl_rate}" -eq 0 ]; then
             echo "Downloading ${output_file}"
-            wget "${file_url}" -O "${output_file}" || {
+            wget "${file_url}" -O "${output_file}" --user-agent="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36" || {
                 echo "Failed to download ${output_file}"
                 exit 1
             }
         else
             echo "Downloading ${output_file} with rate limit of ${dl_rate}m"
-            wget --limit-rate="${dl_rate}m" "${file_url}" -O "${output_file}" || {
+            wget--user-agent="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36" --limit-rate="${dl_rate}m" "${file_url}" -O "${output_file}" || {
                 echo "Failed to download ${output_file}"
                 exit 1
             }
