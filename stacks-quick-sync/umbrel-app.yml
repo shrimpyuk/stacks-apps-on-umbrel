@@ -20,11 +20,11 @@ description: >-
 
   - When its done uninstall quick sync and install/reinstall Stacks Blockchain App.
 developer: Jasper
-website: https://github.com/ceramicwhite/stacks-apps-on-umbrel/
+website: https://github.com/shrimpyuk/stacks-apps-on-umbrel/
 submitter: Jasper
 dependencies: []
-repo: https://github.com/ceramicwhite/stacks-apps-on-umbrel/
-support: https://github.com/ceramicwhite/stacks-apps-on-umbrel/
+repo: https://github.com/shrimpyuk/stacks-apps-on-umbrel/
+support: https://github.com/shrimpyuk/stacks-apps-on-umbrel/
 port: 6821
 gallery:
   - https://i.imgur.com/TwSvQhO.png
